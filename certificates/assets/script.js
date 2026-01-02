@@ -4,7 +4,8 @@ const subCategories = {
   campus: ["organisasi", "event"],
   /*workshop: ["uiux", "coding"],*/
   seminar: ["SENAPADMA", "FPSH"],
-  kursus: ["CySec-Dasar", "Linux"]
+  kursus: ["CySec-Dasar", "Linux"],
+  pendakian: ["Cikuray"]
 };
 
 /* FILTER LEVEL 1 */
