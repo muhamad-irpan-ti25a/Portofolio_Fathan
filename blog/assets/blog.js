@@ -232,6 +232,20 @@ const POSTS = [
           <p>Menurut saya, nilai Amor Concervis sangat penting untuk diterapkan dalam kehidupan mahasiswa maupun kehidupan bermasyarakat. Dengan memiliki rasa cinta kasih terhadap sesama, kita dapat menciptakan lingkungan yang saling mendukung, menghargai, dan peduli terhadap orang lain. Pengalaman mendaki Gunung Gede Pangrango ini menjadi salah satu bukti nyata bahwa kebersamaan dan kepedulian dapat membuat perjalanan yang sulit terasa lebih ringan dan menyenangkan.</p>
           <p>Melalui kegiatan ini, saya semakin memahami bahwa Trilogi Universitas Nusa Putra bukan hanya sekadar teori, tetapi nilai yang harus diterapkan dalam kehidupan nyata. Saya berharap nilai Amor Concervis dapat terus saya terapkan dalam kehidupan sehari-hari, baik di lingkungan kampus, keluarga, maupun masyarakat.</p>
           <p>Dokumentasi Kegiatan Pendakian Gunung Gede Pangrango bersama teman-teman pada tanggal 4 Mei 2026.</p>
+          <div style="display:flex; justify-content:center; margin:2rem 0;">
+  <div style="width:100%; max-width:800px; aspect-ratio:16/9;">
+    <iframe 
+      width="100%" 
+      height="100%" 
+      src="https://www.youtube.com/embed/RySI5OYkArA?si=bdntHTl21NFCScO0"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      style="border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,0.2);">
+    </iframe>
+  </div>
+</div>
           <p>Referensi</p>
           <p>Nilai-Nilai Luhur Trilogi Universitas Nusa Putra:</p>
           <p>https://nusaputra.ac.id/id/tentang/nilai-nilai-luhur/</p>
