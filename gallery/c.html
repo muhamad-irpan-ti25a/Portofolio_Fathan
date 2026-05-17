@@ -1,349 +1,1017 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galeri Gunung</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mountain Memories</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
-      padding:  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  min-height: 100vh;
-  color: #fff;
-  padding: 2rem 1rem;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-}
-
-header h1 {
-  font-weight: 500;
-  letter-spacing: 2px;
-  font-size: 2rem;
-  background: linear-gradient(90deg, #f7797d, #FBD786, #C6FFDD);
-  -webkit-background-clip: text;
-  -webkit-text-f webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-header p {
-  opacity: 0.8;
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-}
-
-/* Bagian Filter */
-#filters {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-#filters button {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 0.6rem 1.5rem;
-  border-radius: 30px;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-#filters button:hover {
-  background: rgba(255,255,255,0.2);
-  transform: scale(1.05);
-}
-
-#filters button.active {
-  background: rgba(255,255,255,0.25);
-  border-color: rgba(255,255,255,0.6);
-}
-
-/* Grid Galeri */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.gallery-item {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 1 / 1; /* kotak, bisa disesuaikan */
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.gallery-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-}
-
-.gallery-item img,
-.gallery-item video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-}
-
-.gallery-item .overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0,0.4);
-  backdrop-filter: blur(4px);
-  padding: 0.75rem;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  font-size: 0.85rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.gallery-item:hover .overlay {
-  transform: translateY(0);
-}
-
-.gallery-item .badge {
-  position: absolute;
-  top: 10px;
-  right:  right: 10px;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  border: 1px solid rgba(255,255,255,255,0.2);
-}
-
-/* Lightbox
-}
-
-#lightbox {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(12px);
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-likes
-  padding: 2rem;
-}
-
-#lightbox.active {
-  display: flex;
-}
-
-#lightbox-content {
-  max-width: 90vw;
-  max-height: 85vh;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-#lightbox video {
-  max-height: 80vh;
-}
-
-#lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5rem;
-  color: #fff;
-  cursor: pointer;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(6px);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  boundary: 1px solid rgba(255,255,255,0.2);
-  transition: 0.2s;
-}
-
-#lightbox-close:hover {
-  background: rgba(255,0,0,0.6);
-  transform: scale(1.1);
-}
-
-/* responsive */
-@media (max-width: 600px) {
-  .gallery {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem;
-  }
-  header h1 {
-    font-size: 1.5rem;
-  }
-}
-
-    .gallery-item .overlay {
-      transform: translateY(0); /* always show on mobile */
-      background: rgba(0,0,0,0.5);
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    :root {
+      --glass: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.2);
+      --shadow: 0 8px 32px rgba(0,0,0,0.25);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.7);
+      --bg: #0b1018;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    body::before {
+      background: #1d4ed8;
+      top: -150px;
+      left: -150px;
+    }
+
+    body::after {
+      background: #0ea5e9;
+      bottom: -200px;
+      right: -100px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 1200px;
+      padding: 15px 24px;
+      border-radius: 24px;
+      background: var(--glass);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 0.95rem;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.7;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 20px 80px;
+      position: relative;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 1200px;
+      min-height: 600px;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1974&auto=format&fit=crop') center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 50px;
+    }
+
+    .hero-overlay h1 {
+      font-size: clamp(2.8rem, 5vw, 6rem);
+      line-height: 1;
+      margin-bottom: 15px;
+    }
+
+    .hero-overlay p {
+      max-width: 600px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .floating-info {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      padding: 18px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.2);
+      width: 220px;
+    }
+
+    .floating-info span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .floating-info h3 {
+      font-size: 1.3rem;
+    }
+
+    .section {
+      padding: 100px 20px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .section-title {
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .gallery-card {
+      position: relative;
+      height: 420px;
+      overflow: hidden;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.6s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-content {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    .gallery-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .gallery-content p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .stat-card {
+      padding: 30px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .stat-card h2 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      transition: 0.4s ease;
+    }
+
+    .timeline-card:hover {
+      transform: translateX(10px);
+    }
+
+    .timeline-card span {
+      color: #7dd3fc;
+      font-size: 0.9rem;
+    }
+
+    .timeline-card h3 {
+      margin: 8px 0;
+    }
+
+    footer {
+      padding: 40px 20px 80px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s ease;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 24px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      color: white;
+      font-size: 1.4rem;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: var(--shadow);
+      transition: 0.4s ease;
+      z-index: 1000;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 1s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width: 768px) {
+      .navbar {
+        padding: 14px 18px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-overlay {
+        padding: 30px;
+      }
+
+      .floating-info {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        width: 180px;
+      }
+
+      .gallery-card {
+        height: 350px;
+      }
+/* ========================= */
+/* RESPONSIVE TABLET */
+/* ========================= */
+@media (max-width: 1024px) {
+
+  .navbar {
+    width: calc(100% - 30px);
+    padding: 14px 20px;
   }
-</style>
+
+  .hero {
+    padding-top: 120px;
+  }
+
+  .hero-card {
+    min-height: 520px;
+    border-radius: 32px;
+  }
+
+  .hero-overlay {
+    padding: 40px;
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .floating-info {
+    width: 200px;
+    top: 30px;
+    right: 30px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 240px;
+  }
+
+  .gallery-card.landscape {
+    grid-column: span 2;
+  }
+
+  .gallery-card.portrait {
+    grid-row: span 2;
+  }
+
+  .section {
+    padding: 80px 20px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ========================= */
+/* RESPONSIVE MOBILE */
+/* ========================= */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    top: 14px;
+    width: calc(100% - 20px);
+    padding: 14px 16px;
+    border-radius: 20px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 110px 14px 50px;
+  }
+
+  .hero-card {
+    min-height: 520px;
+    border-radius: 28px;
+  }
+
+  .hero-overlay {
+    padding: 24px;
+  }
+
+  .hero-overlay h1 {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .hero-overlay p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .floating-info {
+    width: 160px;
+    padding: 14px 18px;
+    bottom: 20px;
+    top: auto;
+    right: 20px;
+    border-radius: 18px;
+  }
+
+  .floating-info h3 {
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 70px 14px;
+  }
+
+  .section-title {
+    margin-bottom: 30px;
+  }
+
+  .section-title h2 {
+    font-size: 2rem;
+  }
+
+  .gallery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .gallery-card,
+  .gallery-card.landscape,
+  .gallery-card.portrait,
+  .gallery-card.square {
+    height: 300px;
+  }
+
+  .gallery-content {
+    padding: 18px;
+  }
+
+  .gallery-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .gallery-content p {
+    font-size: 0.82rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .stat-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .timeline-card {
+    padding: 20px;
+  }
+
+  .music-btn {
+    width: 55px;
+    height: 55px;
+    font-size: 1.1rem;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    border-radius: 20px;
+  }
+
+  .close-btn {
+    top: 20px;
+    right: 20px;
+  }
+}
+    }
+
+/* ========================= */
+/* RESPONSIVE SMALL MOBILE */
+/* ========================= */
+@media (max-width: 480px) {
+
+  .hero-overlay h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-overlay p {
+    font-size: 0.85rem;
+  }
+
+  .gallery-card {
+    height: 260px !important;
+  }
+
+  .section-title h2 {
+    font-size: 1.6rem;
+  }
+
+  .stat-card h2 {
+    font-size: 2rem;
+  }
+
+  .timeline-card h3 {
+    font-size: 1rem;
+  }
+}
+
+
+  </style>
 </head>
 <body>
 
-<header>
-  <h1>⛰️ Puncak Cerita</h1>
-  <p>Dokumentasi perjalanan mendaki gunung</p>
-</header>
+  <nav class="navbar">
+    <div class="logo">Mountain Memories</div>
 
-<!-- Filter -->
-<section id="filters">
-  <button class="active" data-filter="all">Semua</button>
-  <button data-filter="photo">Foto</button>
-  <button data-filter="video">Video</button>
-</section>
+    <div class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#stats">Journey</a>
+      <a href="#timeline">Timeline</a>
+    </div>
+  </nav>
 
-<!-- Galeri -->
-<section class="gallery" id="gallery">
-  <!-- item akan diisi oleh JavaScript -->
-</section>
+  <section class="hero">
+    <div class="hero-card reveal">
 
-<!-- Lightbox -->
-<div id="lightbox">
-  <span id="lightbox-close">&times;</span>
-  <div id="lightbox-content-wrapper" style="display: flex; align-items: center; justify-content: center;">
-    <img id="lightbox-content" src="" alt="" style="display:none;">
-    <video id="lightbox-video" src="" controls style="display:none;"></video>
+      <div class="floating-info">
+        <span>Total Pendakian</span>
+        <h3>12 Mountains</h3>
+      </div>
+
+      <div class="hero-overlay">
+        <h1>Every Mountain Has A Story</h1>
+        <p>
+          Kumpulan dokumentasi perjalanan naik gunung.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+<!-- ========================= -->
+<!-- GALLERY -->
+<!-- ========================= -->
+
+<section class="section" id="gallery">
+
+  <div class="section-title reveal">
+    <h2>Mountain Gallery</h2>
+    <p>Dokumentasi perjalanan dan momen terbaik selama pendakian.</p>
   </div>
-</div>
 
-<script>
-  // Data contoh – ganti dengan file kamu
-  const items = [
-    { type: 'photo', src: 'images/gunung1.jpg', label: 'Sunrise di puncak', location: 'Gunung Rinjani' },
-    { type: 'photo', src: 'images/gunung2.jpg', label: 'Camp di sabana', location: 'Gunung Bromo' },
-    { type: 'video', src: 'videos/pendakian.mp4', label: 'Perjalanan menuju puncak', location: 'Gunung Semeru' },
-    { type: 'photo', src: 'images/gunung3.jpg', label: 'Pemandangan awan', location: 'Gunung Prau' },
-    // Tambahkan lebih banyak sesuai kebutuhan
-  ];
+  <div class="gallery-grid">
 
-  const gallery = document.getElementById('gallery');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-content');
-  const lightboxVideo = document.getElementById('lightbox-video');
-  const closeBtn = document.getElementById('lightbox-close');
+    <!-- LANDSCAPE -->
+    <div class="gallery-card landscape reveal">
+      <img src="">
 
-  let currentFilter = 'all';
+      <div class="gallery-content">
+        <h3>Gunung Gede</h3>
+        <p>Sunrise yang dingin tapi indah.</p>
+      </div>
+    </div>
 
-  // Render galeri
-  function renderGallery() {
-    gallery.innerHTML = '';
-    const filtered = currentFilter === 'all' ? items : items.filter(item => item.type === currentFilter);
+    <!-- PORTRAIT -->
+    <div class="gallery-card portrait reveal">
+      <img src="images/1 (1).HEIC">
 
-    filtered.forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'gallery-item';
-      div.dataset.index = index;
-      div.dataset.type = item.type;
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (2).HEIC">
 
-      const media = item.type === 'photo' ? document.createElement('img') : document.createElement('video');
-      media.src = item.src;
-      media.loading = 'lazy';
-      if (item.type === 'video') {
-        media.muted = true;
-        media.preload = 'metadata';
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (3).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+    <div class="gallery-card portrait reveal">
+      <img src="images/1 (4).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+    <div class="gallery-card portrait reveal">
+      <img src="images/1 (5).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (6).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (7).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (8).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+        <div class="gallery-card portrait reveal">
+      <img src="images/1 (9).HEIC">
+
+      <div class="gallery-content">
+        <h3>Papandayan</h3>
+        <p>Langit biru dan perjalanan panjang.</p>
+      </div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="gallery-card landscape video-item reveal">
+
+      <video controls playsinline preload="metadata" poster="thumbnail.jpg">
+        <source src="videos/1 (1).MOV" type="video/mp4">
+      </video>
+
+      <div class="gallery-content">
+        <h3>Semeru Cinematic</h3>
+        <p>Perjalanan summit menuju Mahameru.</p>
+      </div>
+    </div>
+        <div class="gallery-card landscape video-item reveal">
+
+      <video controls playsinline preload="metadata" poster="thumbnail.jpg">
+        <source src="videos/1 (1).MOV" type="video/mp4">
+      </video>
+
+      <div class="gallery-content">
+        <h3>Semeru Cinematic</h3>
+        <p>Perjalanan summit menuju Mahameru.</p>
+      </div>
+    </div>
+
+    <!-- SQUARE -->
+    <div class="gallery-card square reveal">
+      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1974&auto=format&fit=crop">
+
+      <div class="gallery-content">
+        <h3>Merbabu</h3>
+        <p>Savana terbaik saat sunrise.</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+  </section>
+
+  <section class="section" id="stats">
+
+    <div class="section-title reveal">
+      <h2>Journey Stats</h2>
+      <p>Ringkasan perjalanan pendakian.</p>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card reveal">
+        <h2>12+</h2>
+        <p>Total gunung berhasil didaki.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>42K</h2>
+        <p>Total dokumentasi foto & video.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>8</h2>
+        <p>Provinsi yang sudah dikunjungi.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>120h</h2>
+        <p>Total perjalanan hiking.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="timeline">
+
+    <div class="section-title reveal">
+      <h2>Adventure Timeline</h2>
+      <p>Catatan perjalanan pendakian.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-card reveal">
+        <span>2024</span>
+        <h3>Pendakian Gunung Gede</h3>
+        <p>Pendakian pertama bersama teman sekolah dengan pengalaman sunrise pertama.</p>
+      </div>
+
+      <div class="timeline-card reveal">
+        <span>2025</span>
+        <h3>Explore Papandayan</h3>
+        <p>Camping di area savana dan menikmati malam penuh bintang.</p>
+      </div>
+
+      <div class="timeline-card reveal">
+        <span>2026</span>
+        <h3>Summit Semeru</h3>
+        <p>Perjalanan paling berat sekaligus paling memorable.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Mountain Memories — Built with HTML, CSS & JavaScript.
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <span class="close-btn">×</span>
+    <img src="" alt="Preview">
+  </div>
+
+  <button class="music-btn">♫</button>
+
+  
+
+  <script>
+
+    const cards = document.querySelectorAll('.gallery-card');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = document.querySelector('.close-btn');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const imgSrc = card.querySelector('img').src;
+        lightboxImg.src = imgSrc;
+        lightbox.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) {
+        lightbox.classList.remove('active');
       }
-      div.appendChild(media);
-
-      const badge = document.createElement('span');
-      badge.className = 'badge';
-      badge.textContent = item.type === 'photo' ? '📷' : '🎬';
-      div.appendChild(badge);
-
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      overlay.innerHTML = `<strong>${item.label}</strong><br><small>${item.location}</small> || ''}</small>`;
-      div.appendChild(overlay);
-
-      div.addEventListener('click', () => openLightbox(item));
-      gallery.appendChild(div);
     });
-  }
 
-  // Buka lightbox
-  function openLightbox(item) {
-    lightbox.classList.add('active');
-    if (item.type === 'photo') {
-      lightboxImg.src = item.src;
-      lightboxImg.style.display = 'block';
-      lightboxVideo.style.display = 'none';
-      lightboxVideo.pause();
-    } else {
-      lightboxVideo.src = item.src;
-      lightboxVideo.style.display = 'block';
-      lightboxImg.style.display = 'none';
-      lightboxVideo.play();
+    const revealElements = document.querySelectorAll('.reveal');
+
+    function revealOnScroll() {
+      revealElements.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+
+        if(elementTop < windowHeight - 80) {
+          el.classList.add('active');
+        }
+      });
     }
-    document.body.style.overflow = 'hidden';
-  }
 
-  // Tutup lightbox
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    lightboxVideo.pause();
-    document.body.style.overflow = '';
-  }
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
 
-  closeBtn.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-  });
+    const hero = document.querySelector('.hero-card');
 
-  // Filter
-  document.querySelectorAll('#filters button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelector('#filters button.active').classList.remove('active');
-      btn.classList.add('active');
-      currentFilter = btn.dataset.filter;
-      renderGallery();
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 40;
+      const y = (window.innerHeight / 2 - e.pageY) / 40;
+
+      hero.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
     });
-  });
 
-  // Initial render
-  renderGallery();
+/* ========================= */
+/* AUTO DETECT IMAGE & VIDEO */
+/* ========================= */
+
+document.querySelectorAll('.gallery-card').forEach(card => {
+
+  const img = card.querySelector('img');
+
+  const video = card.querySelector('video');
+
+  /* ========================= */
+  /* IMAGE SUPPORT */
+  /* ========================= */
+
+  if(img){
+
+    const src = img.getAttribute('src');
+
+    if(src){
+
+      const extension =
+      src.split('.').pop().toLowerCase();
+
+      const supportedImages = [
+        'jpg',
+        'jpeg',
+        'png',
+        'webp',
+        'heic',
+        'heif'
+      ];
+
+      if(supportedImages.includes(extension)){
+
+        img.loading = 'lazy';
+
+        img.decoding = 'async';
+
+      }
+
+    }
+
+  }
+
+  /* ========================= */
+  /* VIDEO SUPPORT */
+  /* ========================= */
+
+  if(video){
+
+    const source =
+    video.querySelector('source');
+
+    if(source){
+
+      const src =
+      source.getAttribute('src');
+
+      const extension =
+      src.split('.').pop().toLowerCase();
+
+      const supportedVideos = [
+        'mp4',
+        'mov',
+        'MOV',
+        'webm'
+      ];
+
+      if(supportedVideos.includes(extension)){
+
+        video.setAttribute(
+          'playsinline',
+          true
+        );
+
+        video.setAttribute(
+          'preload',
+          'metadata'
+        );
+
+      }
+
+    }
+
+  }
+
+});
+
+
+/* ========================= */
+/* HEIC FALLBACK */
+/* ========================= */
+
+document.querySelectorAll('img').forEach(img => {
+
+  img.onerror = () => {
+
+    console.log(
+      'Format mungkin tidak didukung browser:',
+      img.src
+    );
+
+  };
+
+});
+
 </script>
 
 </body>
