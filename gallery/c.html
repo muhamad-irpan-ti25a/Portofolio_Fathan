@@ -1,0 +1,713 @@
+# Dynamic Mountain Gallery Website (Liquid Glass Style)
+
+Simpan file berikut sebagai `index.html` lalu deploy langsung ke GitHub Pages.
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mountain Memories</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --glass: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.2);
+      --shadow: 0 8px 32px rgba(0,0,0,0.25);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.7);
+      --bg: #0b1018;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    body::before {
+      background: #1d4ed8;
+      top: -150px;
+      left: -150px;
+    }
+
+    body::after {
+      background: #0ea5e9;
+      bottom: -200px;
+      right: -100px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 1200px;
+      padding: 15px 24px;
+      border-radius: 24px;
+      background: var(--glass);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 0.95rem;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.7;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 20px 80px;
+      position: relative;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 1200px;
+      min-height: 600px;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1974&auto=format&fit=crop') center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 50px;
+    }
+
+    .hero-overlay h1 {
+      font-size: clamp(2.8rem, 5vw, 6rem);
+      line-height: 1;
+      margin-bottom: 15px;
+    }
+
+    .hero-overlay p {
+      max-width: 600px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .floating-info {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      padding: 18px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.2);
+      width: 220px;
+    }
+
+    .floating-info span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .floating-info h3 {
+      font-size: 1.3rem;
+    }
+
+    .section {
+      padding: 100px 20px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .section-title {
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-auto-rows: 280px;
+      gap: 24px;
+      grid-auto-flow: dense;
+    }
+
+    .gallery-card.landscape {
+      grid-column: span 2;
+    }
+
+    .gallery-card.portrait {
+      grid-row: span 2;
+    }
+
+    .gallery-card.square {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .gallery-card {
+      position: relative;
+      height: 420px;
+      overflow: hidden;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.6s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-content {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    .gallery-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .gallery-content p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .stat-card {
+      padding: 30px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .stat-card h2 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      transition: 0.4s ease;
+    }
+
+    .timeline-card:hover {
+      transform: translateX(10px);
+    }
+
+    .timeline-card span {
+      color: #7dd3fc;
+      font-size: 0.9rem;
+    }
+
+    .timeline-card h3 {
+      margin: 8px 0;
+    }
+
+    footer {
+      padding: 40px 20px 80px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s ease;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 24px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      color: white;
+      font-size: 1.4rem;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: var(--shadow);
+      transition: 0.4s ease;
+      z-index: 1000;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 1s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width: 900px) {
+      .gallery-card.landscape {
+        grid-column: span 1;
+      }
+
+      .gallery-card.portrait {
+        grid-row: span 1;
+      }
+    }
+
+    @media(max-width: 768px) {
+      .navbar {
+        padding: 14px 18px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-overlay {
+        padding: 30px;
+      }
+
+      .floating-info {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        width: 180px;
+      }
+
+      .gallery-card {
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Mountain Memories</div>
+
+    <div class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#stats">Journey</a>
+      <a href="#timeline">Timeline</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-card reveal">
+
+      <div class="floating-info">
+        <span>Total Pendakian</span>
+        <h3>12 Mountains</h3>
+      </div>
+
+      <div class="hero-overlay">
+        <h1>Every Mountain Has A Story</h1>
+        <p>
+          Kumpulan dokumentasi perjalanan naik gunung dengan tampilan modern,
+          dinamis, cinematic, dan liquid glass seperti galeri premium.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+
+    <div class="section-title reveal">
+      <h2>Mountain Gallery</h2>
+      <p>Dokumentasi perjalanan dan momen terbaik selama pendakian.</p>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- Landscape -->
+
+      <div class="gallery-card landscape reveal">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1974&auto=format&fit=crop" alt="Gunung 1">
+
+        <div class="gallery-content">
+          <h3>Gunung Gede</h3>
+          <p>Sunrise yang dingin tapi indah.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card portrait reveal">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1974&auto=format&fit=crop" alt="Gunung 2">
+
+        <div class="gallery-content">
+          <h3>Papandayan</h3>
+          <p>Langit biru dan perjalanan panjang.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card square reveal">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1974&auto=format&fit=crop" alt="Gunung 3">
+
+        <div class="gallery-content">
+          <h3>Semeru</h3>
+          <p>Momen terbaik di atas awan.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card landscape reveal">
+        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1974&auto=format&fit=crop" alt="Gunung 4">
+
+        <div class="gallery-content">
+          <h3>Merbabu</h3>
+          <p>Padang savana yang aesthetic.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card portrait reveal">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1974&auto=format&fit=crop" alt="Gunung 5">
+
+        <div class="gallery-content">
+          <h3>Prau</h3>
+          <p>Golden sunrise unforgettable.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card landscape reveal">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1974&auto=format&fit=crop" alt="Gunung 6">
+
+        <div class="gallery-content">
+          <h3>Rinjani</h3>
+          <p>Perjalanan yang sangat melelahkan.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="stats">
+
+    <div class="section-title reveal">
+      <h2>Journey Stats</h2>
+      <p>Ringkasan perjalanan pendakian.</p>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card reveal">
+        <h2>12+</h2>
+        <p>Total gunung berhasil didaki.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>42K</h2>
+        <p>Total dokumentasi foto & video.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>8</h2>
+        <p>Provinsi yang sudah dikunjungi.</p>
+      </div>
+
+      <div class="stat-card reveal">
+        <h2>120h</h2>
+        <p>Total perjalanan hiking.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="timeline">
+
+    <div class="section-title reveal">
+      <h2>Adventure Timeline</h2>
+      <p>Catatan perjalanan pendakian.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-card reveal">
+        <span>2024</span>
+        <h3>Pendakian Gunung Gede</h3>
+        <p>Pendakian pertama bersama teman sekolah dengan pengalaman sunrise pertama.</p>
+      </div>
+
+      <div class="timeline-card reveal">
+        <span>2025</span>
+        <h3>Explore Papandayan</h3>
+        <p>Camping di area savana dan menikmati malam penuh bintang.</p>
+      </div>
+
+      <div class="timeline-card reveal">
+        <span>2026</span>
+        <h3>Summit Semeru</h3>
+        <p>Perjalanan paling berat sekaligus paling memorable.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Mountain Memories — Built with HTML, CSS & JavaScript.
+  </footer>
+
+  <div class="lightbox" id="lightbox">
+    <span class="close-btn">×</span>
+    <img src="" alt="Preview">
+  </div>
+
+  <button class="music-btn">♫</button>
+
+  <script>
+
+    const cards = document.querySelectorAll('.gallery-card');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = document.querySelector('.close-btn');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const imgSrc = card.querySelector('img').src;
+        lightboxImg.src = imgSrc;
+        lightbox.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+
+    function revealOnScroll() {
+      revealElements.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+
+        if(elementTop < windowHeight - 80) {
+          el.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    const hero = document.querySelector('.hero-card');
+
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 40;
+      const y = (window.innerHeight / 2 - e.pageY) / 40;
+
+      hero.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    });
+
+  </script>
+
+</body>
+</html>
+```
+
+## Fitur Website
+
+* Liquid glass / glassmorphism modern
+* Tampilan cinematic & dynamic
+* Responsive mobile & desktop
+* Smooth animation scroll
+* Hover effect premium
+* Lightbox preview foto
+* Dynamic parallax mouse effect
+* Style seperti galeri modern iPhone
+* Cocok untuk GitHub Pages
+* Static website (tanpa backend)
+
+## Cara Deploy ke GitHub Pages
+
+1. Buat repository baru di GitHub
+2. Upload file `index.html`
+3. Masuk ke Settings
+4. Pilih Pages
+5. Source → Deploy from branch
+6. Pilih branch `main`
+7. Save
+8. Website otomatis online
+
+## Cara Mengganti Foto
+
+Ganti bagian ini:
+
+```html
+<img src="LINK_FOTO" alt="Gunung">
+```
+
+Bisa menggunakan:
+
+* Foto lokal
+* Google Drive direct link
+* Imgur
+* GitHub image
+* Unsplash
+
+## Saran Tambahan
+
+Kalau kamu mau, next saya juga bisa bantu:
+
+* versi lebih mirip iPhone Photos App
+* auto slideshow cinematic
+* music background aesthetic
+* loading animation modern
+* splash screen Apple style
+* Masonry gallery seperti Pinterest
+* video documentation section
+* dark/light mode
+* upload foto otomatis via JSON
+* animasi aurora background
+* efek hujan/salju/kabut gunung
+* navbar floating ala Apple
+* gallery filter per gunung
+* infinite scrolling gallery
+* 3D animation website
