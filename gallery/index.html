@@ -610,6 +610,28 @@
   }
 }
 
+/* ========================= */
+/* MUSIC ANIMATION */
+/* ========================= */
+
+.music-btn.playing{
+
+  animation: spinMusic 4s linear infinite;
+
+}
+
+@keyframes spinMusic{
+
+  from{
+    transform: rotate(0deg);
+  }
+
+  to{
+    transform: rotate(360deg);
+  }
+
+}
+
 
   </style>
 </head>
@@ -1313,7 +1335,10 @@
     <img src="" alt="Preview">
   </div>
 
-  <button class="music-btn">♫</button>
+<!-- MUSIC BUTTON --> 
+ <button class="music-btn" id="musicBtn"> ♫ </button> 
+ <!-- AUDIO --> 
+<audio id="bgMusic" autoplay loop muted playsinline > <source src="music/1 (1).mp3" type="audio/mp3"> </audio>
 
   
 
@@ -1470,6 +1495,91 @@ document.querySelectorAll('img').forEach(img => {
     );
 
   };
+
+});
+
+
+/* ========================= */
+/* AUTO PLAY MUSIC */
+/* ========================= */
+
+const bgMusic =
+document.getElementById('bgMusic');
+
+const musicBtn =
+document.getElementById('musicBtn');
+
+/* ========================= */
+/* FORCE AUTOPLAY */
+/* ========================= */
+
+window.addEventListener('load', () => {
+
+  bgMusic.play().catch(() => {
+
+    console.log('Autoplay blocked');
+
+  });
+
+});
+
+/* ========================= */
+/* AUTO UNMUTE */
+/* ========================= */
+
+function activateMusic(){
+
+  bgMusic.muted = false;
+
+  bgMusic.play();
+
+  musicBtn.classList.add('playing');
+
+  document.removeEventListener(
+    'click',
+    activateMusic
+  );
+
+  document.removeEventListener(
+    'touchstart',
+    activateMusic
+  );
+
+}
+
+/* USER FIRST INTERACTION */
+
+document.addEventListener(
+  'click',
+  activateMusic
+);
+
+document.addEventListener(
+  'touchstart',
+  activateMusic
+);
+
+/* ========================= */
+/* BUTTON CONTROL */
+/* ========================= */
+
+musicBtn.addEventListener('click', () => {
+
+  if(bgMusic.paused){
+
+    bgMusic.play();
+
+    musicBtn.classList.add('playing');
+
+  }
+
+  else{
+
+    bgMusic.pause();
+
+    musicBtn.classList.remove('playing');
+
+  }
 
 });
 
